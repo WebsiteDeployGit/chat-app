@@ -1,5 +1,6 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import { getReceiverSocketId } from "../socket/socket.js";
 export const sendMessage = async(req,res)=>{
     try {
 		const { message } = req.body;
@@ -52,7 +53,7 @@ export const getMessages = async (req, res) => {
 		const senderId = req.user._id;
 
 		const conversation = await Conversation.findOne({
-			participants: { $all: [senderId, userToChatId] },
+			participants: { $all: [senderId, userToAChatId] },
 		}).populate("messages"); // NOT REFERENCE BUT ACTUAL MESSAGES
 
 		if (!conversation) return res.status(200).json([]);
